@@ -1,0 +1,30 @@
+
+
+
+$color: #0086b3;
+#mainForm {
+  background-color: $color;
+  font-weight: bold;
+  border: solid darken($color, 10%);
+  padding: 0.5rem;
+}
+
+
+
+$color: #7916c9;
+#checkForm {
+  background-color: $color;
+  font-weight: bold;
+  border: solid darken($color, 10%);
+  padding: 0.5rem;
+}
+
+
+
+$color: #16c97e;
+#table {
+  background-color: $color;
+  font-weight: bold;
+  border: solid darken($color, 10%);
+  padding: 0.5rem;
+}
