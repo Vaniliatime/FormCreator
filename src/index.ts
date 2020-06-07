@@ -1,5 +1,11 @@
-import {Form, InputField, InputFieldType, SelectField, TextareaField, Table} from "./form";
 import './styles.scss';
+import {InputField} from "./form/InputField";
+import {InputFieldType} from "./enum/InputFieldType";
+import {SelectField} from "./form/SelectField";
+import {TextareaField} from "./form/TextareaField";
+import {Form} from "./form/Form";
+import {Table} from "./table/Table";
+import {SelectCountryField} from "./form/SelectCountryField";
 
 let socket = new WebSocket("ws://localhost:8080");
 socket.onopen = function(e) {
@@ -24,20 +30,8 @@ socket.onopen = function(e) {
             value: 'Graphic'
         }
     ]);
-    const selectCountry = new SelectField('Kraj', 'Kraj', []);
-    await selectCountry.fetchOptions('https://restcountries.eu/rest/v2/all')
-        .then((data)=>{
-            const countryList = data.filter((country: any)=>{
-                return country.region === 'Europe';
-            })
-            // @ts-ignore
-            countryList.map(x=>x.name).forEach(element => {
-                let option = <HTMLOptionElement>document.createElement("option");
-                option.text = element;
-                option.value = element;
-                selectCountry.options.push(option);
-            })
-        })
+    const selectCountry = new SelectCountryField('Kraj', 'Kraj');
+    await selectCountry.fetchOptions();
     const checkboxELearningPrefer = new InputField('eLearning', 'Czy preferujesz e-learning', InputFieldType.checkbox);
     const textareaComments = new TextareaField('Uwagi', 'Uwagi');
 
@@ -47,7 +41,7 @@ socket.onopen = function(e) {
     const table = new Table('table',mainForm,{
         formSubmitElId: 'checkForm',
         formResetElId: 'resetForm',
-        saveCallback: function (action,values) {
+        saveCallback: function (action: any, values: any) {
             socket.send(JSON.stringify({
                 action,
                 values
